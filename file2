@@ -1,0 +1,84 @@
+#include <Bridge.h>
+
+int red1 = 12;
+int green1 = 10;
+
+int red2 = 8;
+int green2 = 6;
+
+
+int ledr1 = 13;
+int ledr2 = 11;
+int ledr3 = 9;
+int ledy1 = 7;
+int ledy2 = 5;
+int ledg = 3;
+int pot = A0;
+int potVal = 0;
+
+void setup(){
+
+  pinMode (red1, OUTPUT);
+  pinMode (green1, OUTPUT);
+  pinMode (red2, OUTPUT);
+  pinMode (green2, OUTPUT);
+  
+  pinMode (ledr1, OUTPUT);
+  pinMode (ledr2, OUTPUT);
+  pinMode (ledr3, OUTPUT);
+  pinMode (ledy1, OUTPUT);
+  pinMode (ledy2, OUTPUT);
+  pinMode (ledg, OUTPUT);
+  
+}
+
+void loop(){
+  
+potVal = analogRead(pot);
+    if (potVal <= 170){
+  digitalWrite (ledr1, HIGH);}
+    if (potVal <= 340){
+  digitalWrite (ledr2, HIGH);}
+    if (potVal <= 510){
+  digitalWrite (ledr3, HIGH);}
+    if (potVal <= 680){
+  digitalWrite (ledy1, HIGH);}
+    if (potVal <= 850){
+  digitalWrite (ledy2, HIGH);}
+    if (potVal <= 1000){
+  digitalWrite (ledg, HIGH);}
+  
+  delay(100);
+  
+  if (potVal > 0){
+  digitalWrite (ledr1, LOW);}
+    if (potVal > 170){
+  digitalWrite (ledr2, LOW);}
+    if (potVal > 340){
+  digitalWrite (ledr3, LOW);}
+    if (potVal > 510){
+  digitalWrite (ledy1, LOW);}
+    if (potVal > 680){
+  digitalWrite (ledy2, LOW);}
+    if (potVal > 750){
+  digitalWrite (ledg, LOW);}
+ 
+  blink();
+ 
+}
+
+void blink(){
+  digitalWrite(red1, HIGH);
+  delay(50);
+  digitalWrite(red2, HIGH);
+  delay(50);
+  digitalWrite(red1, LOW);
+  digitalWrite(green1, HIGH);
+  delay(50);
+  digitalWrite(red2, LOW);
+  digitalWrite(green2, HIGH);
+  delay(50);
+  digitalWrite(green1, LOW);
+  delay(50);
+  digitalWrite(green2, LOW);
+}
