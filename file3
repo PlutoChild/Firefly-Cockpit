@@ -1,0 +1,90 @@
+#include <Servo.h>
+
+Servo latch;
+int switchPin = 8;
+int switchState = 0;
+int redbutton = 4;
+int redstate = 0;
+int bluelight = 7;
+//big servo
+
+int led = 13;
+int brightness = 0;   
+int fadeAmount = 50;
+//power led
+
+int buttonPin = 6;
+int state = LOW;
+int time = millis();
+Servo gas;
+int angle;
+int angleSpeed = 1;
+int minAngle = 70;
+int maxAngle = 160;
+//small servo
+
+void setup() {
+  
+  pinMode(switchPin, INPUT);
+  latch.attach(9);
+  pinMode(redbutton, INPUT);
+  pinMode(bluelight, OUTPUT);
+  //large servo
+
+  pinMode(led, OUTPUT);
+  //powerled
+  pinMode(buttonPin, INPUT);
+  gas.attach(12);
+  //small servo
+  Serial.begin(9600);
+}
+
+
+void loop() {
+  redstate = digitalRead(redbutton);
+  switchState = digitalRead(switchPin);
+ 
+    if (switchState == HIGH && redstate == HIGH) {
+       latch.write(100);
+       digitalWrite(bluelight, HIGH);
+    }else {
+       latch.write(10);
+       digitalWrite(bluelight, LOW);
+    }
+      
+   
+  
+  state = digitalRead(buttonPin);
+  if (state == LOW){
+      gastank();
+      cockpitblink();
+      digitalWrite(led,HIGH);
+      delay(100);
+      //if (time >= 100){digitalWrite(empty, HIGH);}
+ }else {
+       //digitalWrite(empty, LOW);
+       angle = minAngle;
+       gas.write(angle);
+       delay(100); //reverse speed
+    }
+}
+
+void cockpitblink() {
+  digitalWrite(led, HIGH);   
+  delay(100);               
+  digitalWrite(led, LOW);    
+  delay(100); 
+
+}
+
+void gastank (){
+    angle += angleSpeed;
+    int nextAngle = angle + angleSpeed;
+    if(nextAngle < maxAngle && nextAngle >= minAngle){
+      angle += angleSpeed;
+      gas.write(angle);
+        //if(140<angle<160){
+       // digitalWrite(empty, HIGH);}
+      delay(100);}
+}
+
